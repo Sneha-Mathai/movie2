@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('uploads/image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the image in place while scrolling */
+    min-height: 100vh; /* Ensures the body takes at least the full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 400px;
+    width: 100%; /* Ensures the form takes full width within its container */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 50px 0; /* Adds space above and below the form to avoid it touching the edges */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #f0ead5;
+}
+
+label {
+    display: block;
+    margin: 5px 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #f1c40f;
+    border: none;
+    color: #000;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 15px 0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #e0b70f;
+}
