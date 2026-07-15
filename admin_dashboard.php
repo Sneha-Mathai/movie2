@@ -10,11 +10,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role']=='User') {
     header("Location: login.php");
     exit();
 
-   
+}  
 // Sample genres array. Replace this with a database query result in a real application.
 $genres = ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 'Romance', 'Documentary'];
 
-}?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,8 +104,8 @@ $genres = ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 'Romance', 'Document
             <section id="generate-report" class="admin-section" style="display: none;">
            <h2>Generate Report</h2>
     <form method="GET" action="report.php">
-        <label for="timestamp">Select Timestamp:</label>
-        <input type="datetime-local" id="timestamp" name="timestamp" required><br><br>
+        <label for="timestamp">Select Date</label>
+        <input type="date" id="report_date" name="report_date" required><br><br>
 
         <button type="submit">Generate Report</button>
     </form>

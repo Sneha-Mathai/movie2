@@ -97,6 +97,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'User';
             method: 'GET',
             dataType: 'json',
             success: function(response) {
+               // print( "success inside");
                 var moviesContainer = $('#movies-container');
                 moviesContainer.empty(); // Clear any existing content
     
@@ -108,11 +109,13 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'User';
                     // Send the movie ID as data in the AJAX request
                     window.location.href = 'movie_detail.php?id=' + movie.id;
                 });
+                
 
     
                     moviesContainer.append(movieItem);
                 });
             }
+            //print ("success outside");
         });
     
     $.ajax({

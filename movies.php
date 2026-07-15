@@ -1,6 +1,6 @@
 <?php
 include 'config.php';
-require 'phpSpreadsheet/vendor/autoload.php'; // Path to PhpSpreadsheet library
+//require 'phpSpreadsheet/vendor/autoload.php'; // Path to PhpSpreadsheet library
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
