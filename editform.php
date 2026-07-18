@@ -52,30 +52,25 @@ if (!$user) {
     </form>
     <script>
         $(document).ready(function(){
-            $document.on('submit',funtion(e){
+            $('form').on('submit',function(e){
                 e.preventDefault();
-                data=$(this).serialize();
-
-                $.ajax(
-                    {
+                var data=$(this).serialize();
+              //  file_put_contents('test1.txt', 'jhjshd', FILE_APPEND);
+                $.ajax({
                         
                         url:"user.php?action=updateprofile",
                         method:'post',
                         data:data,
                         success:function(response){
-                            alert(profile edit success);
+                            alert('profile edit success');
 
                         },
-                        error:funtion(){
-                            alert(failed);
+                        error:function(){
+                            alert('failed');
                         }
-
-
-                    }
-                )
-
-
-            })
-        })        </script>
+                    });
+        });
+    });
+</script>
 </body>
 </html>

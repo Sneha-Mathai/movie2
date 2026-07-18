@@ -6,7 +6,7 @@ if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] == 'Admin') {
         header("Location: admin_dashboard.php");
     } else {
-        header("Location: user_dashboard.php");
+        header("Location: dashboard.php");
     }
     exit();
 }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     

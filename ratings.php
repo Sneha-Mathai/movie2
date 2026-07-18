@@ -25,6 +25,7 @@ class Ratings {
     }
 
     public function addRating() {
+        echo ('here2');
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Validate and sanitize input
             $movieId = $_POST['movie_id'];
@@ -49,14 +50,17 @@ class Ratings {
     }
 
     private function handleRating($movieId, $rating) {
+        echo('here3');
 
         $query = "SELECT * FROM ratings WHERE movie_id = :movie_id AND user_id = :user_id";
     $stmt = $this->con->prepare($query);
     $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $this->userId, PDO::PARAM_INT);
     $stmt->execute();
+    echo($movieId);
 
     if ($stmt->rowCount() > 0) {
+        print('if');
         // If a rating exists, update it
         $updateQuery = "UPDATE ratings SET rating = :rating WHERE movie_id = :movie_id AND user_id = :user_id";
         $updateStmt = $this->con->prepare($updateQuery);
@@ -64,7 +68,11 @@ class Ratings {
         $updateStmt->bindParam(':user_id', $this->userId, PDO::PARAM_INT);
         $updateStmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         $updateStmt->execute();
+        echo($rating);
+        echo('sneha');
+        
     } else {
+        print('else');
 
        
         // Prepare and execute SQL query for rating
@@ -75,6 +83,8 @@ class Ratings {
         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         
         $stmt->execute() ;
+        echo($rating);
+        file_put_contents('ratings.txt',print_r($stmt,true).PHP_EOL,FILE_APPEND);
     }
 }
 
@@ -174,11 +184,13 @@ public function getMovieLikesDislikes($movieId) {
 }
 
 public function getUserRating($movieId) {
+    echo('here4');
     $query = "SELECT rating FROM ratings WHERE movie_id = :movie_id AND user_id = :user_id";
     $stmt = $this->con->prepare($query);
     $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $this->userId, PDO::PARAM_INT);
     $stmt->execute();
+    echo ($movieId);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 

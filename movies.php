@@ -13,6 +13,48 @@ class Movie {
         $this->con = $database->getConnection();
 
     }
+    public function searchMovies() {
+    try {
+        $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+        $genre = isset($_GET['genre']) ? trim($_GET['genre']) : '';
+
+        $sql = "SELECT id, title, genre, release_date, poster_url, vdo_link
+                FROM movies
+                WHERE 1=1";
+
+        $params = [];
+
+        // Search by title
+        if (!empty($q)) {
+            $sql .= " AND title LIKE :q";
+            $params[':q'] = "%$q%";
+        }
+
+        // Filter by genre
+        if (!empty($genre)) {
+            $sql .= " AND genre = :genre";
+            $params[':genre'] = $genre;
+        }
+
+        $stmt = $this->con->prepare($sql);
+       $stmt->execute($params);
+       $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       // Return ONLY the movie array
+        echo json_encode($movies);
+
+
+//
+
+// echo json_encode([
+//     "sql" => $sql,
+//     "params" => $params,
+//     "movies" => $movies
+// ]);
+
+    } catch (PDOException $e) {
+        echo json_encode(["error" => $e->getMessage()]);
+    }
+}
 
 public function addmovie($title,$genre,$release_date,$synopsis,$poster,$video_url){
     try{
@@ -35,7 +77,7 @@ public function addmovie($title,$genre,$release_date,$synopsis,$poster,$video_ur
 }
     public function fetchMovies() {
         try {
-            $sql = "SELECT id,title,release_date, poster_url,vdo_link FROM movies";
+            $sql = "SELECT id,title,genre,release_date, poster_url,vdo_link FROM movies";
             $stmt = $this->con->prepare($sql);
             $stmt->execute();
             $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -147,7 +189,7 @@ LIMIT 5";
         $stmt = $this->con->prepare($query);
         return $stmt->execute([$id]);
     }
-    function insertDataFromExcel($filePath, $conn) {
+    /*function insertDataFromExcel($filePath, $conn) {
         // Load the Excel file using PhpSpreadsheet
         $spreadsheet = IOFactory::load($filePath);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
@@ -172,7 +214,7 @@ LIMIT 5";
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
         }
-    }
+    }*/
     
 
     
@@ -221,7 +263,11 @@ if (isset($_GET['action'])) {
     }elseif($_GET['action'] == 'fetchTrendingMovies') {
         $trendingMovies = $movie->fetchTrendingMovies();
         echo json_encode($trendingMovies);
-    }elseif ($_GET['action'] == 'deleteMovie') {
+    }elseif ($_GET['action'] == 'searchMovies') {
+
+    $movie->searchMovies();
+
+}elseif ($_GET['action'] == 'deleteMovie') {
         $movieId = $_POST['id'];
     
         // Assuming you have a Movie class with a deleteMovie method

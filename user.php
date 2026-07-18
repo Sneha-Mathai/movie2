@@ -65,7 +65,7 @@ public function login($email, $password) {
                 if ($user['role'] == 'Admin') {
                     header("Location: admin_dashboard.php");
                 } else {
-                    header("Location: user_dashboard.php");
+                    header("Location: dashboard.php");
                 }
                 exit();
             } else {
@@ -102,10 +102,14 @@ public function login($email, $password) {
     }
 }
 */
+
+//file_put_contents('test1.txt', 'jhjshd', FILE_APPEND);
 public function update_user(){
+    
     $sql="update users set username=.username,email=:email,";
     $stmt=$this->con->prepare($sql);
 $stmt->bindParam(':username',$username);
+
 $stmt->execute();
 }
 
