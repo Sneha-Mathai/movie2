@@ -184,13 +184,11 @@ public function getMovieLikesDislikes($movieId) {
 }
 
 public function getUserRating($movieId) {
-    echo('here4');
     $query = "SELECT rating FROM ratings WHERE movie_id = :movie_id AND user_id = :user_id";
     $stmt = $this->con->prepare($query);
     $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $this->userId, PDO::PARAM_INT);
     $stmt->execute();
-    echo ($movieId);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 

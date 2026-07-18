@@ -18,44 +18,94 @@ class Movie {
         $q = isset($_GET['q']) ? trim($_GET['q']) : '';
         $genre = isset($_GET['genre']) ? trim($_GET['genre']) : '';
 
-        $sql = "SELECT id, title, genre, release_date, poster_url, vdo_link
-                FROM movies
+        $sql = "SELECT m.id, m.title, m.genre, m.release_date, m.poster_url, m.vdo_link,
+                       AVG(CASE WHEN r.rating > 0 THEN r.rating END) AS average_rating
+                FROM movies m
+                LEFT JOIN ratings r ON m.id = r.movie_id
                 WHERE 1=1";
 
         $params = [];
 
-        // Search by title
         if (!empty($q)) {
-            $sql .= " AND title LIKE :q";
+            $sql .= " AND m.title LIKE :q";
             $params[':q'] = "%$q%";
         }
 
-        // Filter by genre
         if (!empty($genre)) {
-            $sql .= " AND genre = :genre";
+            $sql .= " AND m.genre = :genre";
             $params[':genre'] = $genre;
         }
 
+        $sql .= " GROUP BY m.id";
+
         $stmt = $this->con->prepare($sql);
-       $stmt->execute($params);
-       $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
-       // Return ONLY the movie array
+        $stmt->execute($params);
+        $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         echo json_encode($movies);
-
-
-//
-
-// echo json_encode([
-//     "sql" => $sql,
-//     "params" => $params,
-//     "movies" => $movies
-// ]);
-
     } catch (PDOException $e) {
         echo json_encode(["error" => $e->getMessage()]);
     }
 }
+//     public function searchMovies() {
+//     try {
+//         $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+//         $genre = isset($_GET['genre']) ? trim($_GET['genre']) : '';
 
+//         $sql = "SELECT id, title, genre, release_date, poster_url, vdo_link
+//                 FROM movies
+//                 WHERE 1=1";
+
+//         $params = [];
+
+//         // Search by title
+//         if (!empty($q)) {
+//             $sql .= " AND title LIKE :q";
+//             $params[':q'] = "%$q%";
+//         }
+
+//         // Filter by genre
+//         if (!empty($genre)) {
+//             $sql .= " AND genre = :genre";
+//             $params[':genre'] = $genre;
+//         }
+
+//         $stmt = $this->con->prepare($sql);
+//        $stmt->execute($params);
+//        $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//        // Return ONLY the movie array
+//         echo json_encode($movies);
+
+
+// //
+
+// // echo json_encode([
+// //     "sql" => $sql,
+// //     "params" => $params,
+// //     "movies" => $movies
+// // ]);
+
+//     } catch (PDOException $e) {
+//         echo json_encode(["error" => $e->getMessage()]);
+//     }
+// }
+
+public function fetchMovies() {
+    try {
+        $sql = "SELECT m.id, m.title, m.genre, m.release_date, m.poster_url, m.vdo_link,
+                       AVG(CASE WHEN r.rating > 0 THEN r.rating END) AS average_rating
+                FROM movies m
+                LEFT JOIN ratings r ON m.id = r.movie_id
+                GROUP BY m.id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($movies);
+    } catch (PDOException $e) {
+        echo json_encode(["error" => $e->getMessage()]);
+    }
+}
 public function addmovie($title,$genre,$release_date,$synopsis,$poster,$video_url){
     try{
         $sql="insert into movies(title,genre,release_date,synopsis,poster_url,vdo_link)values(:title,:genre,:date,:synopsis,:poster,:video_url)";
@@ -75,19 +125,19 @@ public function addmovie($title,$genre,$release_date,$synopsis,$poster,$video_ur
         echo"error".$e->getMessage();
     }
 }
-    public function fetchMovies() {
-        try {
-            $sql = "SELECT id,title,genre,release_date, poster_url,vdo_link FROM movies";
-            $stmt = $this->con->prepare($sql);
-            $stmt->execute();
-            $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     public function fetchMovies() {
+//         try {
+//             $sql = "SELECT id,title,genre,release_date, poster_url,vdo_link FROM movies";
+//             $stmt = $this->con->prepare($sql);
+//             $stmt->execute();
+//             $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            echo json_encode($movies); // Return the JSON-encoded data
-        } catch (PDOException $e) {
-            echo json_encode(["error" => $e->getMessage()]);
-        }
+//             echo json_encode($movies); // Return the JSON-encoded data
+//         } catch (PDOException $e) {
+//             echo json_encode(["error" => $e->getMessage()]);
+//         }
 
-}
+// }
 public function fetchTrendingMovies() {
     $query = "SELECT movies.id, movies.title, movies.poster_url, 
        AVG(ratings.rating) as average_rating, 

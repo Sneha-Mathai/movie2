@@ -95,6 +95,7 @@
             }
 
         function loadExistingRating(movieId) {
+            console.log('loadexistingrating');
         // Make an AJAX call to fetch the user's existing rating for the movie
         $.ajax({
             url: 'ratings.php?action=getUserRating',
@@ -103,6 +104,7 @@
             success: function(response) {
                 if (response.rating) {
                     currentRating = response.rating;
+                    console.log('all goood');
                     highlightStars(currentRating);
                 }
             },
