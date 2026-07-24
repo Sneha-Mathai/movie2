@@ -3,3 +3,23 @@ PDOStatement Object
     [queryString] => INSERT INTO ratings (movie_id, user_id, rating) VALUES (:movie_id, :user_id, :rating)
 )
 
+PDOStatement Object
+(
+    [queryString] => INSERT INTO ratings (movie_id, user_id, rating) VALUES (:movie_id, :user_id, :rating)
+)
+
+PDOStatement Object
+(
+    [queryString] => INSERT INTO ratings (movie_id, user_id, rating) VALUES (:movie_id, :user_id, :rating)
+)
+
+PDOStatement Object
+(
+    [queryString] => INSERT INTO ratings (movie_id, user_id, rating) VALUES (:movie_id, :user_id, :rating)
+)
+
+PDOStatement Object
+(
+    [queryString] => INSERT INTO ratings (movie_id, user_id, rating) VALUES (:movie_id, :user_id, :rating)
+)
+

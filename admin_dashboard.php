@@ -3,12 +3,12 @@ session_start();
 //echo  $_SESSION['user_id'];
 
 // Check if the user is logged in
-if (!isset($_SESSION['role']) || $_SESSION['role'] == 'Admin') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Admin') {
 
     // If not logged in, redirect to login page
     
     header("Location: login.php");
-    //exit();
+    exit();
 
 }  
 // Sample genres array. Replace this with a database query result in a real application.
